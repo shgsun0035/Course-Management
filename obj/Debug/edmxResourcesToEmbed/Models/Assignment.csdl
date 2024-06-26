@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Assignment" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="AssignmentContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ClassroomSet" EntityType="Assignment.Classroom" />
+    <EntitySet Name="CourseSet" EntityType="Assignment.Course" />
+    <AssociationSet Name="ClassroomCourse" Association="Assignment.ClassroomCourse">
+      <End Role="Classroom" EntitySet="ClassroomSet" />
+      <End Role="Course" EntitySet="CourseSet" />
+    </AssociationSet>
+    <EntitySet Name="BookingSet" EntityType="Assignment.Booking" />
+    <AssociationSet Name="CourseBooking" Association="Assignment.CourseBooking">
+      <End Role="Course" EntitySet="CourseSet" />
+      <End Role="Booking" EntitySet="BookingSet" />
+    </AssociationSet>
+    <EntitySet Name="RatingSet" EntityType="Assignment.Rating" />
+    <AssociationSet Name="CourseRating" Association="Assignment.CourseRating">
+      <End Role="Course" EntitySet="CourseSet" />
+      <End Role="Rating" EntitySet="RatingSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Classroom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassroomName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ClassroomDescription" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ClassroomLatitude" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ClassroomLongitude" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Course" Relationship="Assignment.ClassroomCourse" FromRole="Classroom" ToRole="Course" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CourseName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="CourseDescription" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="CourseTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CourseRating" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="TrainerName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Classroom" Relationship="Assignment.ClassroomCourse" FromRole="Course" ToRole="Classroom" />
+    <Property Name="ClassroomId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Booking" Relationship="Assignment.CourseBooking" FromRole="Course" ToRole="Booking" />
+    <NavigationProperty Name="Rating" Relationship="Assignment.CourseRating" FromRole="Course" ToRole="Rating" />
+    <Property Name="CourseEndTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="ClassroomCourse">
+    <End Type="Assignment.Classroom" Role="Classroom" Multiplicity="1" />
+    <End Type="Assignment.Course" Role="Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classroom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="ClassroomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Course" Relationship="Assignment.CourseBooking" FromRole="Booking" ToRole="Course" />
+    <Property Name="CourseId" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="CourseBooking">
+    <End Type="Assignment.Course" Role="Course" Multiplicity="1" />
+    <End Type="Assignment.Booking" Role="Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RatingValue" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Course" Relationship="Assignment.CourseRating" FromRole="Rating" ToRole="Course" />
+    <Property Name="CourseId" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="CourseRating">
+    <End Type="Assignment.Course" Role="Course" Multiplicity="1" />
+    <End Type="Assignment.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

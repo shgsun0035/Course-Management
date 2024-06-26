@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Assignment.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@using (Html.BeginForm("Chart", "Courses", FormMethod.Post))
+{
+    <h5>Check booking amount of each course in a specific period</h5>
+    <div style="position: relative">
+        <input id="startTime" name="startTime"> to
+        <input id="endTime" name="endTime">
+        <button type="submit" class="btn btn-primary">Booking Report</button>
+    </div>
+    <p style="color:red;">@TempData["ErrorMessage"]</p>
+}
+<br>
+<div id="calendar"></div>
+
+<table class="table" style="visibility:collapse">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseEndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrainerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Classroom.ClassroomName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="events">
+            <th class="courseId">
+                @Html.DisplayFor(modelItem => item.Id)
+            </th>
+            <td class="title">
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseDescription)
+            </td>
+            <td class="start">
+                @Html.DisplayFor(modelItem => item.CourseTime)
+            </td>
+            <td class="end">
+                @Html.DisplayFor(modelItem => item.CourseEndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrainerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Classroom.ClassroomName)
+            </td>
+            <td>
+                @if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Delete | ", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit | ", "Edit", new { id = item.Id })
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+@section Scripts {
+    @Scripts.Render("~/bundles/fullcalendar")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script>
+        $('#startTime').datetimepicker({ format: 'YYYY/MM/DD hh:mm A' });
+        $('#endTime').datetimepicker({ format: 'YYYY/MM/DD hh:mm A' });
+    </script>
+}

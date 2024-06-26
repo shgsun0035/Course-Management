@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Assignment.Models.Chart>
+@{
+    ViewBag.Title = "Chart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chart</h2>
+<h4>Booking amount of each course from "@ViewBag.StartTime" to "@ViewBag.EndTime"</h4>
+@foreach (var item in Model)
+{
+    <div class="chartModelData" style="display: none;">
+        <div class="courseName">
+            @Html.DisplayFor(modelItem => item.CourseName);
+        </div>
+        <div class="bookingAmount">
+            @Html.DisplayFor(modelItem => item.BookingAmount);
+        </div>
+    </div>
+
+}
+<canvas id="myChart"></canvas>
+@Html.ActionLink("Back", "Index")
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="~/Scripts/chart.js"></script>
+}

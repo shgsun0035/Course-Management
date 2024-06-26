@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "ChatView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chat Room</h2>
+<div class="col-md-4">
+    <h3>User</h3>
+    <button id="onlineUserList" class="btn btn-primary">Get Online Users</button>
+    <ul id="user"></ul>
+</div>
+
+<div class="col-md-4">
+    <h3>Text Box</h3>
+    <input type="text" id="txt" required />
+    <button id="send" class="btn btn-primary">Post</button>
+</div>
+
+<div class="col-md-4">
+    <h3>Message</h3>
+    <ul id="message"></ul>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/chat.js"></script>
+}
+
+
+

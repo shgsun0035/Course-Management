@@ -1,0 +1,80 @@
+﻿@model Assignment.Models.Classroom
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Classroom</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassroomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassroomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassroomDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassroomDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassroomLatitude)
+        </dt>
+
+        <dd class="latitude">
+            @Html.DisplayFor(model => model.ClassroomLatitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassroomLongitude)
+        </dt>
+
+        <dd class="longitude">
+            @Html.DisplayFor(model => model.ClassroomLongitude)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+
+<br />
+<div class="weather-container">
+    <h2>Weather</h2>
+    <div class="weather-icon">
+        <img src="icons/unknown.png" alt="">
+    </div>
+    <div class="weather-description">
+        <p> - </p>
+    </div>
+    <div class="temperature-value">
+        <p> - </p>
+    </div>
+    <div class="weather-humidity">
+        <p> - </p>
+    </div>
+    <div class="weather-windspeed">
+        <p> - </p>
+    </div>
+    <div class="location">
+        <p>-</p>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/Scripts/weather.js"></script>
+
+}

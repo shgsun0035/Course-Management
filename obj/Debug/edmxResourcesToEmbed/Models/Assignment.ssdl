@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Assignment.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BookingSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CourseId" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ClassroomSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClassroomName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ClassroomDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ClassroomLatitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ClassroomLongitude" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CourseSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CourseDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CourseTime" Type="datetime" Nullable="false" />
+    <Property Name="CourseRating" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TrainerName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ClassroomId" Type="int" Nullable="false" />
+    <Property Name="CourseEndTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="RatingSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RatingValue" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CourseId" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_ClassroomCourse">
+    <End Role="ClassroomSet" Type="Self.ClassroomSet" Multiplicity="1" />
+    <End Role="CourseSet" Type="Self.CourseSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassroomSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseSet">
+        <PropertyRef Name="ClassroomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseBooking">
+    <End Role="CourseSet" Type="Self.CourseSet" Multiplicity="1" />
+    <End Role="BookingSet" Type="Self.BookingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CourseSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookingSet">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseRating">
+    <End Role="CourseSet" Type="Self.CourseSet" Multiplicity="1" />
+    <End Role="RatingSet" Type="Self.RatingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CourseSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RatingSet">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AssignmentStoreContainer">
+    <EntitySet Name="BookingSet" EntityType="Self.BookingSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClassroomSet" EntityType="Self.ClassroomSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CourseSet" EntityType="Self.CourseSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RatingSet" EntityType="Self.RatingSet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ClassroomCourse" Association="Self.FK_ClassroomCourse">
+      <End Role="ClassroomSet" EntitySet="ClassroomSet" />
+      <End Role="CourseSet" EntitySet="CourseSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseBooking" Association="Self.FK_CourseBooking">
+      <End Role="CourseSet" EntitySet="CourseSet" />
+      <End Role="BookingSet" EntitySet="BookingSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseRating" Association="Self.FK_CourseRating">
+      <End Role="CourseSet" EntitySet="CourseSet" />
+      <End Role="RatingSet" EntitySet="RatingSet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
